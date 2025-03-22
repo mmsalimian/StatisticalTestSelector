@@ -1,3 +1,19 @@
+<!--
+Licensed under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
+Author: Eli
+For details, visit: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Test Flowchart</title>
+</head>
+<body>
+    <!-- Your page content here -->
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,9 +137,9 @@
 
             if (history.length === 0 || history[history.length - 1].isQuestion) {
                 let lastStep = history[history.length - 1];
-                askQuestion(lastStep ? lastStep.nextQuestion : "Are you performing a comparison, testing a relationship, predicting an outcome, assessing agreement/equivalence, using machine learning methods, applying multivariate techniques, using emerging techniques, performing causal inference, analyzing time-series data, or performing Monte Carlo methods?", 
-                            lastStep ? lastStep.options : ["Comparison", "Relationship", "Prediction", "Agreement/Equivalence", "Machine Learning", "Multivariate Techniques", "Emerging Techniques", "Causal Inference", "Time-Series Analysis", "Monte Carlo Methods"], 
-                            lastStep ? lastStep.callbacks : [performComparison, testRelationship, predictOutcome, assessAgreementEquivalence, machineLearningMethods, multivariateTechniques, emergingTechniques, causalInferenceMethods, timeSeriesMethods, monteCarloMethods]);
+                askQuestion(lastStep ? lastStep.nextQuestion : "Are you performing a comparison, testing a relationship, predicting an outcome, assessing agreement/equivalence, or using machine learning methods?", 
+                            lastStep ? lastStep.options : ["Comparison", "Relationship", "Prediction", "Agreement/Equivalence", "Machine Learning"], 
+                            lastStep ? lastStep.callbacks : [performComparison, testRelationship, predictOutcome, assessAgreementEquivalence, machineLearningMethods]);
             }
         }
 
@@ -148,6 +164,306 @@
             flowchartDiv.appendChild(optionContainer);
         }
 
+        function performComparison(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "How many sample groups do you have?", options: ["One", "Two", "More than two"], callbacks: [oneSample, twoSamples, moreThanTwoSamples] });
+            renderFlowchart();
+        }
+
+        function testRelationship(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are your variables categorical or numerical?", options: ["Categorical", "Numerical"], callbacks: [categoricalTest, numericalTest] });
+            renderFlowchart();
+        }
+
+        function predictOutcome(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your outcome variable binary or continuous?", options: ["Binary", "Continuous"], callbacks: [logisticRegression, linearRegression] });
+            renderFlowchart();
+        }
+
+        function assessAgreementEquivalence(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are you assessing the agreement between two measurement methods or testing for equivalence between groups?", options: ["Agreement", "Equivalence"], callbacks: [assessAgreement, assessEquivalence] });
+            renderFlowchart();
+        }
+
+        function machineLearningMethods(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are you performing classification, regression, clustering, or working with sequential data?", options: ["Classification", "Regression", "Clustering", "Sequential Data"], callbacks: [mlClassification, mlRegression, mlClustering, mlSequentialData] });
+            renderFlowchart();
+        }
+
+        function assessAgreement(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are your measurements paired or repeated?", options: ["Paired", "Repeated"], callbacks: [blandAltmanAnalysis, intraclassCorrelationCoefficient] });
+            renderFlowchart();
+        }
+
+        function assessEquivalence(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your data normally distributed?", options: ["Yes", "No"], callbacks: [tost, nonParametricEquivalence] });
+            renderFlowchart();
+        }
+
+        function blandAltmanAnalysis(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Bland-Altman Analysis");
+        }
+
+        function intraclassCorrelationCoefficient(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Intraclass Correlation Coefficient (ICC)");
+        }
+
+        function tost(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("TOST (Two One-Sided Tests)");
+        }
+
+        function nonParametricEquivalence(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Non-Parametric Equivalence Test (e.g., Wilcoxon Signed-Rank Test)");
+        }
+
+        function mlClassification(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your dataset small or large?", options: ["Small", "Large"], callbacks: [svmClassification, neuralNetworkClassification] });
+            renderFlowchart();
+        }
+
+        function mlRegression(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Do you need probabilistic predictions?", options: ["Yes", "No"], callbacks: [gaussianProcesses, neuralNetworkRegression] });
+            renderFlowchart();
+        }
+
+        function mlClustering(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Does your data have latent structures or subpopulations?", options: ["Yes", "No"], callbacks: [factorMixtureModels, traditionalClustering] });
+            renderFlowchart();
+        }
+
+        function mlSequentialData(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your data complex and requires deep learning?", options: ["Yes", "No"], callbacks: [deepLearningSequential, hiddenMarkovModels] });
+            renderFlowchart();
+        }
+
+        function svmClassification(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Does your data have a clear margin of separation?", options: ["Yes", "No"], callbacks: [svmWithKernel, adjustSvm] });
+            renderFlowchart();
+        }
+
+        function neuralNetworkClassification(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your data structured or unstructured?", options: ["Structured", "Unstructured"], callbacks: [nnStructuredData, deepLearningClassification] });
+            renderFlowchart();
+        }
+
+        function svmWithKernel(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Support Vector Machine (SVM) with Kernel");
+        }
+
+        function adjustSvm(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Adjust SVM Parameters or Use Alternative Methods");
+        }
+
+        function nnStructuredData(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Neural Networks for Structured Data");
+        }
+
+        function deepLearningClassification(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Deep Learning Classification");
+        }
+
+        function gaussianProcesses(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Gaussian Processes");
+        }
+
+        function neuralNetworkRegression(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your dataset large and complex?", options: ["Yes", "No"], callbacks: [deepLearningRegression, traditionalNeuralNetworkRegression] });
+            renderFlowchart();
+        }
+
+        function traditionalNeuralNetworkRegression(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Traditional Neural Network Regression");
+        }
+
+        function deepLearningRegression(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Deep Learning Regression");
+        }
+
+        function factorMixtureModels(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Factor Mixture Models");
+        }
+
+        function traditionalClustering(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Traditional Clustering Methods");
+        }
+
+        function deepLearningSequential(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Deep Learning for Sequential Data");
+        }
+
+        function hiddenMarkovModels(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Hidden Markov Models (HMMs)");
+        }
+
+        function logisticRegression(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Do you have more than one predictor?", options: ["Yes", "No"], callbacks: [multipleLogisticRegression, simpleLogisticRegression] });
+            renderFlowchart();
+        }
+
+        function linearRegression(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is the relationship between variables linear or non-linear?", options: ["Linear", "Non-linear"], callbacks: [simpleLinearRegression, polynomialRegression] });
+            renderFlowchart();
+        }
+
+        function simpleLogisticRegression(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Logistic Regression");
+        }
+
+        function multipleLogisticRegression(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Multiple Logistic Regression");
+        }
+
+        function simpleLinearRegression(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Simple Linear Regression");
+        }
+
+        function polynomialRegression(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Polynomial Regression");
+        }
+
+        function categoricalTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Chi-Square Test");
+        }
+
+        function numericalTest(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Is your data normally distributed?", options: ["Yes", "No"], callbacks: [() => finalAnswer("Pearson Correlation"), () => finalAnswer("Spearman Correlation")] });
+            renderFlowchart();
+        }
+
+        function oneSample(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are you comparing the sample mean with the population mean or comparing the pretest-posttest measurements?", options: ["Sample vs. Population", "Pretest-Posttest"], callbacks: [sampleVsPopulation, prePost] });
+            renderFlowchart();
+        }
+
+        function sampleVsPopulation(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Do you have the population standard deviation and is n ≥ 30?", options: ["Yes", "No"], callbacks: [zTest, oneSampleTTest] });
+            renderFlowchart();
+        }
+
+        function zTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Z-Test");
+        }
+
+        function oneSampleTTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("One-Sample T-Test");
+        }
+
+        function prePost(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Dependent (Paired) T-Test");
+        }
+
+        function twoSamples(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are the two samples paired, or are they independent?", options: ["Paired", "Independent"], callbacks: [pairedTTest, independentSamples] });
+            renderFlowchart();
+        }
+
+        function pairedTTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Dependent (Paired) T-Test");
+        }
+
+        function independentSamples(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are the variances of the two groups equal?", options: ["Yes", "No"], callbacks: [independentTTest, welchTTest] });
+            renderFlowchart();
+        }
+
+        function independentTTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Independent T-Test");
+        }
+
+        function welchTTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Welch's T-Test");
+        }
+
+        function moreThanTwoSamples(question, answer) {
+            history.push({ question, answer, isQuestion: true, nextQuestion: "Are the variances across groups equal?", options: ["Yes", "No"], callbacks: [anova, welchAnova] });
+            renderFlowchart();
+        }
+
+        function anova(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("ANOVA");
+        }
+
+        function welchAnova(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Welch ANOVA");
+        }
+
+        function mannWhitneyUTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Mann-Whitney U Test");
+        }
+
+        function wilcoxonSignedRankTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Wilcoxon Signed-Rank Test");
+        }
+
+        function kruskalWallisTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Kruskal-Wallis Test");
+        }
+
+        function friedmanTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Friedman Test");
+        }
+
+        function signTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Sign Test");
+        }
+
+        function moodsMedianTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Mood’s Median Test");
+        }
+
+        function cramersV(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Cramér’s V");
+        }
+
+        function kolmogorovSmirnovTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Kolmogorov-Smirnov Two-Sample Test");
+        }
+
+        function runsTest(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Runs Test");
+        }
+
+        function harrellDavisQuantileEstimator(question, answer) {
+            history.push({ question, answer, isQuestion: false });
+            finalAnswer("Harrell-Davis Quantile Estimator");
+        }
+
         function finalAnswer(answer) {
             history.push({ question: "Statistical Test:", answer, isQuestion: false });
             renderFlowchart();
@@ -167,10 +483,5 @@
 
         renderFlowchart();
     </script>
-
-    <!-- Include the modular JavaScript files -->
-    <script src="integration.js"></script>
-    <script src="comparison-tests.js"></script>
-    <script src="statisticalTests.js"></script>
 </body>
 </html>
