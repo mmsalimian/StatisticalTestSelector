@@ -1,0 +1,192 @@
+<!--
+Licensed under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
+Author: Eli
+For details, visit: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Test Flowchart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        /* Add the rest of your CSS here */
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Test Flowchart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .locked-box {
+            background-color: #d4edda; /* Green for locked boxes */
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+            width: 60%;
+            text-align: center;
+        }
+        .question-box {
+            background-color: #cce5ff; /* Blue for the current question */
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0;
+            font-weight: bold;
+            width: 60%;
+            text-align: center;
+        }
+        .final-box {
+            background-color: #ffeeba; /* Yellow for the final answer */
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0;
+            font-size: 18px;
+            font-weight: bold;
+            width: 60%;
+            text-align: center;
+        }
+        .arrow {
+            font-size: 35px;
+            margin: 10px 0;
+            color: #555; /* Neutral color for arrows */
+            text-align: center; /* Center the arrow */
+        }
+        .arrow::before {
+            content: "⬇"; /* Unicode down arrow */
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .option-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+        .navigation {
+            margin-top: 40px;
+        }
+        .nav-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            margin: 5px 10px;
+        }
+        .nav-button:hover {
+            background-color: #b02a37;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="flowchart"></div>
+        <div class="navigation">
+            <button class="nav-button" onclick="goBack()">Back</button>
+            <button class="nav-button" onclick="startOver()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        let history = [];
+        let flowchartDiv = document.getElementById("flowchart");
+
+        function renderFlowchart() {
+            flowchartDiv.innerHTML = "";
+
+            history.forEach((step, index) => {
+                let box = document.createElement("div");
+                box.classList.add(index === history.length - 1 && !step.isQuestion ? "final-box" : "locked-box");
+                box.innerHTML = `<b>${step.question}</b><br> ${step.answer}`;
+                flowchartDiv.appendChild(box);
+
+                if (index < history.length - 1) {
+                    let arrow = document.createElement("div");
+                    arrow.classList.add("arrow");
+                    flowchartDiv.appendChild(arrow);
+                }
+            });
+
+            if (history.length === 0 || history[history.length - 1].isQuestion) {
+                let lastStep = history[history.length - 1];
+                askQuestion(lastStep ? lastStep.nextQuestion : "Are you performing a comparison, testing a relationship, predicting an outcome, assessing agreement/equivalence, or using machine learning methods?", 
+                            lastStep ? lastStep.options : ["Comparison", "Relationship", "Prediction", "Agreement/Equivalence", "Machine Learning"], 
+                            lastStep ? lastStep.callbacks : [performComparison, testRelationship, predictOutcome, assessAgreementEquivalence, machineLearningMethods]);
+            }
+        }
+
+        function askQuestion(question, options, callbacks) {
+            let box = document.createElement("div");
+            box.classList.add("question-box");
+            box.innerHTML = `<b>${question}</b>`;
+            flowchartDiv.appendChild(box);
+
+            let optionContainer = document.createElement("div");
+            optionContainer.classList.add("options");
+            options.forEach((opt, index) => {
+                let button = document.createElement("button");
+                button.classList.add("option-button");
+                button.innerText = opt;
+                button.onclick = () => {
+                    let callback = callbacks[index];
+                    callback(question, opt);
+                };
+                optionContainer.appendChild(button);
+            });
+            flowchartDiv.appendChild(optionContainer);
+        }
+
+        function finalAnswer(answer) {
+            history.push({ question: "Statistical Test:", answer, isQuestion: false });
+            renderFlowchart();
+        }
+
+        function goBack() {
+            if (history.length > 0) {
+                history.pop();
+                renderFlowchart();
+            }
+        }
+
+        function startOver() {
+            history = [];
+            renderFlowchart();
+        }
+
+        renderFlowchart();
+    </script>
+</body>
+</html>
