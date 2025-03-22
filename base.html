@@ -1,24 +1,3 @@
-<!--
-Licensed under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
-Author: Eli
-For details, visit: https://creativecommons.org/licenses/by-nc/4.0/legalcode
--->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistical Test Flowchart</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        /* Add the rest of your CSS here */
-    </style>
-</head>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,9 +121,9 @@ For details, visit: https://creativecommons.org/licenses/by-nc/4.0/legalcode
 
             if (history.length === 0 || history[history.length - 1].isQuestion) {
                 let lastStep = history[history.length - 1];
-                askQuestion(lastStep ? lastStep.nextQuestion : "Are you performing a comparison, testing a relationship, predicting an outcome, assessing agreement/equivalence, or using machine learning methods?", 
-                            lastStep ? lastStep.options : ["Comparison", "Relationship", "Prediction", "Agreement/Equivalence", "Machine Learning"], 
-                            lastStep ? lastStep.callbacks : [performComparison, testRelationship, predictOutcome, assessAgreementEquivalence, machineLearningMethods]);
+                askQuestion(lastStep ? lastStep.nextQuestion : "Are you performing a comparison, testing a relationship, predicting an outcome, assessing agreement/equivalence, using machine learning methods, applying multivariate techniques, using emerging techniques, performing causal inference, analyzing time-series data, or performing Monte Carlo methods?", 
+                            lastStep ? lastStep.options : ["Comparison", "Relationship", "Prediction", "Agreement/Equivalence", "Machine Learning", "Multivariate Techniques", "Emerging Techniques", "Causal Inference", "Time-Series Analysis", "Monte Carlo Methods"], 
+                            lastStep ? lastStep.callbacks : [performComparison, testRelationship, predictOutcome, assessAgreementEquivalence, machineLearningMethods, multivariateTechniques, emergingTechniques, causalInferenceMethods, timeSeriesMethods, monteCarloMethods]);
             }
         }
 
@@ -188,5 +167,10 @@ For details, visit: https://creativecommons.org/licenses/by-nc/4.0/legalcode
 
         renderFlowchart();
     </script>
+
+    <!-- Include the modular JavaScript files -->
+    <script src="integration.js"></script>
+    <script src="comparison-tests.js"></script>
+    <script src="statisticalTests.js"></script>
 </body>
 </html>
